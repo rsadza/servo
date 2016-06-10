@@ -4,6 +4,21 @@ An image resizing service to sit **behind** a dynamic cache (like CloudFront).
 
 ## Install
 
+Install GraphicsMagick
+
+```bash
+
+# Ubuntu
+
+apt-get install imagemagick graphicsmagick
+
+# AWS Linux AMI
+
+yum install ImageMagick GraphicsMagick
+
+```
+
+
 Install Servo with npm.
 
 ```bash
@@ -27,12 +42,13 @@ Servo uses a JS/JSON file for configuration that needs to be passed in through a
   // The port servo will listen for requests on.
   "port": 80,
 
-  // Set the cache-control header to set the life of objects.
-  "cacheControl": "max-age=315360000"
+  "headers": {
+    "cacheControl": "max-age=315360000",
+    "Access-Control-Allow-Origin": "*"
+  },
 
   // Hosts that point to the cloudfront endpoint. Requests on servo that are not
   // from cloudfront will be redirected randomly to one of these hosts.
-
   "hosts": [
     "cdn0.example.com",
     "cdn1.example.com",
@@ -40,45 +56,16 @@ Servo uses a JS/JSON file for configuration that needs to be passed in through a
     "cdn3.example.com"
   ],
 
-  // A whitelist of coercible extensions.
-  "extensions": [
-    "jpg",
-    "png",
-    "gif"
-  ],
-
   // The S3 bucket to be used.
   "bucket": "some-s3-bucket",
-
-  // AWS Access Key ID.
-  "accessKeyId": "XXX",
-
-  // AWS Secret Access Key.
-  "secretAccessKey": "XXX",
-
-  // A shared key between servo and a publishing app.
-  "servoKey": "XXX",
+  "bucketKeyPrefix": "public/img/",
+  "pathPrefix": "/assets/", // Default: '/',
 
   // GraphicsMagick routines to put an image through when specified in the URL.
   "routines": {
     "profile": "scale:200,200,^;gravity:Center;extent:200,200;strip",
     "100x100": "resize:100,100;strip"
-  },
-
-  // Enable/disable CORS headers.
-  "cors": true,
-
-  // Refuse to upload files over n bytes.
-  "maxFileSize": 12345,
-
-  // Automatically resize images to fit in an n by n box if they have a
-  // dimension that is larger than n.
-  "maxImageDimension": 2000,
-
-  // Specify a hash algorithm to use for each file.
-  // Run `node -e "console.log(require('crypto').getHashes())"` to see a list of
-  // algorithms your machine supports.
-  hashAlgorithm: 'sha512'
+  }
 }
 ```
 

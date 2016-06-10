@@ -1,0 +1,33 @@
+{
+  "port": 80,
+
+  "headers": {
+    "cacheControl": "max-age=315360000",
+    "Access-Control-Allow-Origin": "*"
+  },
+  
+  "hosts": [
+    "cdn0.example.com",
+    "cdn1.example.com",
+    "cdn2.example.com",
+    "cdn3.example.com"
+  ],
+
+  "bucket": "your-bucket",
+  "bucketKeyPrefix": "public/img/",
+  "pathPrefix": "/img-resized/",
+
+  "routines": {
+    "profile": "scale:200,200,^;gravity:Center;extent:200,200;strip",
+    "100x100": "resize:100,100;strip",
+    "200x200": "resize:200,200;strip",
+    "400x400": "resize:400,400;strip",
+    "600x600": "resize:600,600;strip",
+    "800x800": "resize:800,800;strip",
+    "1000x1000": "resize:1000,1000;strip",
+    "1200x1200": "resize:1200,1200;strip",
+    "1400x1400": "resize:1400,1400;strip",
+    "1600x1600": "resize:1600,1600;strip",
+    "2000x2000": "resize:2000,2000;strip"
+  }
+}
